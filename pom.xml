@@ -41,7 +41,7 @@
         <dependency>
             <groupId>com.uxplima.claim</groupId>
             <artifactId>bukkit-api</artifactId>
-            <version>LATEST</version>
+            <version>3.5.5</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

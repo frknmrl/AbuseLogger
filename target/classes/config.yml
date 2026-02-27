@@ -1,0 +1,36 @@
+# AbuseLogger Config
+
+# Radius (in chunks) to check for nearby claims
+radius: 2
+
+# Message settings (MiniMessage supported)
+messages:
+  # Log file format
+  # Placeholders: {date}, {player}, {claim}, {action}, {x}, {y}, {z}
+  log_format: "[{date}] {player} isimli oyuncu {claim} isimli arazinin etrafında {action}. Koordinatlar: {x}, {y}, {z}"
+
+  # Admin in-game notification
+  # Clickable to teleport
+  admin_notification: "<yellow>{player}</yellow> isimli oyuncu <gold>{claim}</gold> isimli arazinin etrafında <red>{action}</red>. <click:run_command:'/tp {x} {y} {z}'><aqua>İlgili eylemin koordinatına ışınlanmak için bu mesaja tıkla!</aqua></click>"
+
+  # Player in-game notification (for claim members)
+  player_notification: "<yellow>{player}</yellow> isimli oyuncu senin veya üyesi olduğun <gold>{claim}</gold> arazisinin etrafında <red>{action}</red>."
+
+  # Toggle messages
+  alerts_enabled: "<green>Bildirimler açıldı.</green>"
+  alerts_disabled: "<red>Bildirimler kapatıldı.</red>"
+  no_permission: "<red>Bu komutu kullanmak için yetkiniz yok!</red>"
+  reload: "<green>Yapılandırma başarıyla yenilendi.</green>"
+
+  # Info command messages
+  info_header: "<gray>--- [ <gold>{player} Son 5 Kayıt</gold> ] ---</gray>"
+  info_format: "<white>{date}</white> <gray>-</gray> <yellow>{action}</yellow> <gray>({claim})</gray>"
+  no_records: "<red>{player} isimli oyuncunun taciz kaydı yok.</red>"
+  player_not_found: "<red>Oyuncu belirtmelisin: /abuselogger info <oyuncu></red>"
+
+# Localized action names
+actions:
+  break: "Blok kırdı"
+  place: "Blok koydu"
+  ignite: "Yakma işlemi yaptı"
+  bucket_empty: "Kova boşalttı"

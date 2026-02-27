@@ -16,8 +16,6 @@ import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 
-import java.util.Optional;
-
 public class ClaimListener implements Listener {
 
     private final AbuseLogger plugin;
@@ -91,12 +89,11 @@ public class ClaimListener implements Listener {
                 // We use the center of the chunk to check for a claim
                 // This works because claims are chunk-aligned
                 org.bukkit.Location chunkCenter = new org.bukkit.Location(world, (x << 4) + 8, 64, (z << 4) + 8);
-                Optional<Claim> found = claimFacade.findByLocation(BukkitConverter.toDomainLocation(chunkCenter));
+                Claim found = claimFacade.getByLocationUnsafe(BukkitConverter.toDomainLocation(chunkCenter));
 
-                if (found.isPresent()) {
-                    Claim claim = found.get();
-                    if (!isMember(claim, player)) {
-                        return claim;
+                if (found != null) {
+                    if (!isMember(found, player)) {
+                        return found;
                     }
                 }
             }
