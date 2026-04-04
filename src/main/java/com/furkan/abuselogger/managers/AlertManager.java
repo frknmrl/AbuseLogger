@@ -1,6 +1,6 @@
-package com.uxplima.abuselogger.managers;
+package com.furkan.abuselogger.managers;
 
-import com.uxplima.abuselogger.AbuseLogger;
+import com.furkan.abuselogger.AbuseLogger;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 

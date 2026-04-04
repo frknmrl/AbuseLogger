@@ -1,10 +1,10 @@
-package com.uxplima.abuselogger;
+package com.furkan.abuselogger;
 
-import com.uxplima.abuselogger.commands.CommandManager;
-import com.uxplima.abuselogger.listeners.ClaimListener;
-import com.uxplima.abuselogger.managers.AlertManager;
-import com.uxplima.abuselogger.managers.LoggerManager;
-import com.uxplima.abuselogger.managers.WebhookManager;
+import com.furkan.abuselogger.commands.CommandManager;
+import com.furkan.abuselogger.listeners.ClaimListener;
+import com.furkan.abuselogger.managers.AlertManager;
+import com.furkan.abuselogger.managers.LoggerManager;
+import com.furkan.abuselogger.managers.WebhookManager;
 import com.uxplima.claim.app.facade.ClaimFacade;
 import com.uxplima.claim.bukkit.api.UxmClaimBukkitAPI;
 import net.kyori.adventure.text.minimessage.MiniMessage;

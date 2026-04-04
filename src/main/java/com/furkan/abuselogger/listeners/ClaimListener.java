@@ -1,6 +1,6 @@
-package com.uxplima.abuselogger.listeners;
+package com.furkan.abuselogger.listeners;
 
-import com.uxplima.abuselogger.AbuseLogger;
+import com.furkan.abuselogger.AbuseLogger;
 import com.uxplima.claim.app.facade.ClaimFacade;
 import com.uxplima.claim.bukkit.api.BukkitConverter;
 import com.uxplima.claim.domain.model.Claim;

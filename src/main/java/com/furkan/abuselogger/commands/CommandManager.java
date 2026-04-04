@@ -1,6 +1,6 @@
-package com.uxplima.abuselogger.commands;
+package com.furkan.abuselogger.commands;
 
-import com.uxplima.abuselogger.AbuseLogger;
+import com.furkan.abuselogger.AbuseLogger;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
