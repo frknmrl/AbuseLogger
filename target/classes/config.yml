@@ -3,6 +3,9 @@
 # Radius (in chunks) to check for nearby claims
 radius: 2
 
+# /abuselogger info komutu için gösterilecek maksimum kayıt sayısı
+info-count: 5
+
 # Message settings (MiniMessage supported)
 messages:
   # Log file format
@@ -22,11 +25,22 @@ messages:
   no_permission: "<red>Bu komutu kullanmak için yetkiniz yok!</red>"
   reload: "<green>Yapılandırma başarıyla yenilendi.</green>"
 
-  # Info command messages
-  info_header: "<gray>--- [ <gold>{player} Son 5 Kayıt</gold> ] ---</gray>"
-  info_format: "<white>{date}</white> <gray>-</gray> <yellow>{action}</yellow> <gray>({claim})</gray>"
+  # Info command — player modu
+  # Placeholders: {player}, {count}
+  info_header: "<gray>--- [ <gold>{player} — Son {count} Kayıt</gold> ] ---</gray>"
+  # Placeholders: {date}, {action}, {claim}, {x}, {y}, {z}
+  info_format: "<white>{date}</white> <gray>-</gray> <yellow>{action}</yellow> <gray>({claim})</gray> <click:run_command:'/tp {x} {y} {z}'><aqua>[Işınlan]</aqua></click>"
   no_records: "<red>{player} isimli oyuncunun taciz kaydı yok.</red>"
-  player_not_found: "<red>Oyuncu belirtmelisin: /abuselogger info <oyuncu></red>"
+
+  # Info command — claim modu
+  # Placeholders: {claim}, {count}
+  info_claim_header: "<gray>--- [ <gold>{claim} Arazisi — Son {count} Taciz</gold> ] ---</gray>"
+  # Placeholders: {date}, {player}, {action}, {claim}, {x}, {y}, {z}
+  info_claim_format: "<white>{date}</white> <gray>-</gray> <yellow>{player}</yellow> <gray>→</gray> <red>{action}</red> <click:run_command:'/tp {x} {y} {z}'><aqua>[Işınlan]</aqua></click>"
+  no_records_claim: "<red>{claim} arazisine ait taciz kaydı yok.</red>"
+
+  # Usage hint
+  info_usage: "<red>Kullanım: /abuselogger info player <oyuncu> | info claim <arazi></red>"
 
 # Localized action names
 actions:

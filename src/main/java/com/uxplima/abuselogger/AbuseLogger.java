@@ -36,9 +36,7 @@ public class AbuseLogger extends JavaPlugin {
         this.alertManager = new AlertManager(this);
 
         // Register Commands
-        CommandManager commandManager = new CommandManager(this);
-        getCommand("abuselogger").setExecutor(commandManager);
-        getCommand("abuselogger").setTabCompleter(commandManager);
+        getServer().getCommandMap().register("abuselogger", new CommandManager(this));
 
         // Register Listeners
         getServer().getPluginManager().registerEvents(new ClaimListener(this), this);

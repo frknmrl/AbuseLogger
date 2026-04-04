@@ -28,31 +28,34 @@ public class ClaimListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBreak(BlockBreakEvent event) {
-        handleAction(event.getPlayer(), event.getBlock(), "break");
+        if (event.getBlock().getType().name().contains("FIRE")) return;
+        handleAction(event.getPlayer(), event.getBlock(), "break", event.getBlock().getType().name());
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlace(BlockPlaceEvent event) {
-        handleAction(event.getPlayer(), event.getBlock(), "place");
+        if (event.getBlock().getType().name().contains("FIRE")) return;
+        handleAction(event.getPlayer(), event.getBlock(), "place", event.getBlock().getType().name());
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onIgnite(BlockIgniteEvent event) {
         if (event.getPlayer() != null) {
-            handleAction(event.getPlayer(), event.getBlock(), "ignite");
+            handleAction(event.getPlayer(), event.getBlock(), "ignite", null);
         }
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onBucket(PlayerBucketEmptyEvent event) {
-        handleAction(event.getPlayer(), event.getBlock(), "bucket_empty");
+        String bucketType = event.getBucket().name();
+        handleAction(event.getPlayer(), event.getBlock(), "bucket_empty", bucketType);
     }
 
-    private void handleAction(Player player, Block block, String actionType) {
+    private void handleAction(Player player, Block block, String actionType, String extraInfo) {
         if (player.hasPermission("abuse.logger.admin"))
             return;
 
-        int radius = plugin.getConfig().getInt("radius", 10);
+        int radius = plugin.getConfig().getInt("radius", 2);
         org.bukkit.Location bLoc = block.getLocation();
 
         // Find if there is a claim in radius that the player is not a member of
@@ -60,6 +63,9 @@ public class ClaimListener implements Listener {
 
         if (nearbyClaim != null) {
             String actionName = plugin.getConfig().getString("actions." + actionType, actionType);
+            if (extraInfo != null && !extraInfo.isEmpty()) {
+                actionName = actionName + " (" + extraInfo + ")";
+            }
             String claimName = nearbyClaim.getName();
 
             // Log to file (async)
@@ -75,31 +81,41 @@ public class ClaimListener implements Listener {
     }
 
     private Claim findNearbyUnauthorizedClaim(Player player, org.bukkit.Location origin, int radius) {
-        // Current chunk coordinates
-        int centralX = origin.getBlockX() >> 4;
-        int centralZ = origin.getBlockZ() >> 4;
         org.bukkit.World world = origin.getWorld();
-
         if (world == null)
             return null;
+
+        // EĞER OYUNCU KENDİ ARAZİSİNDE BİR İŞLEM YAPIYORSA LOGLAMA
+        Claim originClaim = claimFacade.getByLocationUnsafe(BukkitConverter.toDomainLocation(origin));
+        if (originClaim != null) {
+            return null; // İşlem zaten bir arazi içinde (ve iptal edilmemişse izinlidir)
+        }
+
+        int centralX = origin.getBlockX() >> 4;
+        int centralZ = origin.getBlockZ() >> 4;
+
+        Claim closestClaim = null;
+        double minDistanceSq = Double.MAX_VALUE;
 
         // Search in a grid of chunks [central - radius, central + radius]
         for (int x = centralX - radius; x <= centralX + radius; x++) {
             for (int z = centralZ - radius; z <= centralZ + radius; z++) {
-                // We use the center of the chunk to check for a claim
-                // This works because claims are chunk-aligned
+                if (x == centralX && z == centralZ) continue; // Origin chunk already checked
+
                 org.bukkit.Location chunkCenter = new org.bukkit.Location(world, (x << 4) + 8, 64, (z << 4) + 8);
                 Claim found = claimFacade.getByLocationUnsafe(BukkitConverter.toDomainLocation(chunkCenter));
 
-                if (found != null) {
-                    if (!isMember(found, player)) {
-                        return found;
+                if (found != null && !isMember(found, player)) {
+                    double distSq = Math.pow(x - centralX, 2) + Math.pow(z - centralZ, 2);
+                    if (distSq < minDistanceSq) {
+                        minDistanceSq = distSq;
+                        closestClaim = found;
                     }
                 }
             }
         }
 
-        return null;
+        return closestClaim;
     }
 
     private boolean isMember(Claim claim, Player player) {
