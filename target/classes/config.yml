@@ -48,3 +48,17 @@ actions:
   place: "Blok koydu"
   ignite: "Yakma işlemi yaptı"
   bucket_empty: "Kova boşalttı"
+
+# -------------------------------------------------------
+#   Discord Webhook (optional)
+# -------------------------------------------------------
+webhook:
+  enabled: false
+  url: "YOUR_WEBHOOK_URL_HERE"
+  embed:
+    title: "AbuseLogger"
+    description: "{player} isimli oyuncu {claim} isimli arazinin etrafında {action}. Koordinatlar: {x}, {y}, {z}"
+    color: "#CC0000"
+    thumbnail-url: ""
+    footer: "AbuseLogger Plugin"
+    timestamp: true

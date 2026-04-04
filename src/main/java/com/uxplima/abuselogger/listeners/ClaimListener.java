@@ -68,9 +68,17 @@ public class ClaimListener implements Listener {
             }
             String claimName = nearbyClaim.getName();
 
-            // Log to file (async)
+            // Log to folder file (async)
             plugin.getLoggerManager().log(player.getName(), claimName, actionName, bLoc.getX(), bLoc.getY(),
                     bLoc.getZ());
+
+            // Log to Discord Webhook (async)
+            plugin.getWebhookManager().sendWebhook(
+                    player.getName(), claimName, actionName,
+                    String.valueOf(bLoc.getBlockX()),
+                    String.valueOf(bLoc.getBlockY()),
+                    String.valueOf(bLoc.getBlockZ())
+            );
 
             // Notify Admins
             notifyAdmins(player, claimName, actionName, bLoc);

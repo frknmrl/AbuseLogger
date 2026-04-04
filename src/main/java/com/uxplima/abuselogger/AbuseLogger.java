@@ -4,6 +4,7 @@ import com.uxplima.abuselogger.commands.CommandManager;
 import com.uxplima.abuselogger.listeners.ClaimListener;
 import com.uxplima.abuselogger.managers.AlertManager;
 import com.uxplima.abuselogger.managers.LoggerManager;
+import com.uxplima.abuselogger.managers.WebhookManager;
 import com.uxplima.claim.app.facade.ClaimFacade;
 import com.uxplima.claim.bukkit.api.UxmClaimBukkitAPI;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -14,6 +15,7 @@ public class AbuseLogger extends JavaPlugin {
     private static AbuseLogger instance;
     private LoggerManager loggerManager;
     private AlertManager alertManager;
+    private WebhookManager webhookManager;
     private ClaimFacade claimFacade;
     private final MiniMessage miniMessage = MiniMessage.miniMessage();
 
@@ -34,6 +36,7 @@ public class AbuseLogger extends JavaPlugin {
         // Initialize Managers
         this.loggerManager = new LoggerManager(this);
         this.alertManager = new AlertManager(this);
+        this.webhookManager = new WebhookManager(this);
 
         // Register Commands
         getServer().getCommandMap().register("abuselogger", new CommandManager(this));
@@ -61,6 +64,10 @@ public class AbuseLogger extends JavaPlugin {
 
     public AlertManager getAlertManager() {
         return alertManager;
+    }
+
+    public WebhookManager getWebhookManager() {
+        return webhookManager;
     }
 
     public ClaimFacade getClaimFacade() {
